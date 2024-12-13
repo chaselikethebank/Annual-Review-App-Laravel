@@ -13,4 +13,5 @@
 
         <button type="submit" class="btn btn-success mt-3">Update Job Role</button>
     </form>
+    <a href="{{route('job-roles.index')}}">Cancel</a>
 @endsection
