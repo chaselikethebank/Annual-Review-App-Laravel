@@ -64,4 +64,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function jobRoles()
+{
+    return $this->belongsToMany(JobRole::class);
+}
 }

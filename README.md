@@ -12,7 +12,7 @@ Update the following environment variables to match your setup:
 DB_CONNECTION=sqlite
 DB_DATABASE=/path/to/your/database.sqlite
 APP_KEY=
-DB_DATABASE=<print from cli pwd>/database.sqlite
+DB_DATABASE=< pwd print off root directory >storage/database/database.sqlite
 APP_DEBUG=true
 APP_ENV=local
 
@@ -26,7 +26,9 @@ php artisan key:generate
 This will update the APP_KEY environment variable in your .env file.
 
 # Step 4: get the absolute path for your sqlite3 db
+make sure you are in the root directory of your app
 ```
+
 pwd
 ```
 add the pwd string to the .env DB_DATABASE
