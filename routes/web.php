@@ -22,8 +22,7 @@ Route::middleware([
 
    // Guides Routes
    Route::get('/job-roles/{jobRole}/guides/create', [JobRoleController::class, 'createGuide'])->name('job-roles.guides.create');
-   Route::post('/job-roles/{jobRole}/guides', [JobRoleController::class, 'storeGuide'])->name('job-roles.guides.store');
    Route::get('/job-roles/{jobRole}/guides/{guide}/edit', [JobRoleController::class, 'editGuide'])->name('job-roles.guides.edit');
    Route::put('/job-roles/{jobRole}/guides/{guide}', [JobRoleController::class, 'updateGuide'])->name('job-roles.guides.update');
-   Route::post('/job-roles/{jobRoleId}/guides', [JobRoleController::class, 'addGuide'])->name('jobRoles.addGuide');
+   Route::post('/job-roles/{jobRole}/guides', [JobRoleController::class, 'addGuide'])->name('job-roles.guides.store');
 });
