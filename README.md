@@ -57,3 +57,25 @@ npm run dev
 ```
 
 This will start the server to hot module your style
+
+
+//
+
+# Schema Notes 
+## basic tables
+job_roles
+guides
+users
+
+## Manager-subordinate hierarchy tables
+manager_subordinate
+id
+manager_id (foreign key referencing users.id)
+subordinate_id (foreign key referencing users.id)
+created_at
+updated_at
+
+## How to include job roles w foreign key
+users
+id
+job_role_id (foreign key referencing job_roles.id)

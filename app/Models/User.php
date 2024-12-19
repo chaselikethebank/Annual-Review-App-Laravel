@@ -69,4 +69,19 @@ class User extends Authenticatable
 {
     return $this->belongsToMany(JobRole::class);
 }
+
+public function manager(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'manager_id');
+    }
+
+public function managers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_user', 'subordinate_id', 'manager_id');
+    }
+
+    public function subordinates(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_user', 'manager_id', 'subordinate_id');
+    }
 }
