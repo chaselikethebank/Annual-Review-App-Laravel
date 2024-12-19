@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobRoleController;
+use App\Http\Controllers\HierarchyController;
+use App\Http\Controllers\Controller;
 
 
 Route::get('/', function () {
@@ -16,6 +18,13 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+   // User routes
+   Route::get('/users', 'App\Http\Controllers\UserController@index')->name('users.index');
+
+   // Hierarchy Management Routes
+   Route::get('/hierarchy/assign', [HierarchyController::class, 'assign'])->name('hierarchy.assign');
+   Route::post('/hierarchy/assign', [HierarchyController::class, 'store'])->name('hierarchy.store');
 
    // Job Roles Management Routes
    Route::get('/job-roles/assign', [JobRoleController::class, 'assign'])->name('job-roles.assign');

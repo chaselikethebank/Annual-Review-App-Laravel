@@ -10,6 +10,9 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -71,9 +74,9 @@ class User extends Authenticatable
 }
 
 public function manager(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'manager_id');
-    }
+{
+    return $this->belongsTo(User::class, 'manager_id');
+}
 
 public function managers(): BelongsToMany
     {
