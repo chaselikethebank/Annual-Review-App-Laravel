@@ -20,7 +20,6 @@ Route::middleware([
     })->name('dashboard');
 
    // User routes
-   Route::get('/users', 'App\Http\Controllers\UserController@index')->name('users.index');
 
    // Hierarchy Routes
    Route::get('/hierarchy', [HierarchyController::class, 'index'])->name('hierarchy.index');
@@ -42,5 +41,6 @@ Route::middleware([
    Route::put('/job-roles/{jobRole}/guides/{guide}', [JobRoleController::class, 'updateGuide'])->name('job-roles.guides.update');
    Route::post('/job-roles/{jobRole}/guides', [JobRoleController::class, 'addGuide'])->name('job-roles.guides.store');
    //
+
 
 });
