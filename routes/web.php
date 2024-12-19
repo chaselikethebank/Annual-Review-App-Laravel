@@ -17,12 +17,19 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-   // Job Roles Management Routes (CRUD)
-   Route::resource('job-roles', JobRoleController::class);
+   // Job Roles Management Routes
+   Route::get('/job-roles/assign', [JobRoleController::class, 'assign'])->name('job-roles.assign');
+   Route::post('/job-roles/assign', [JobRoleController::class, 'storeAssign'])->name('job-roles.store.assign');
 
+   Route::post('/job-roles/{jobRoleId}/assign-user', [JobRoleController::class, 'assignUserToJobRole'])->name('job-roles.assign-user');
+   Route::post('/job-roles/{jobRoleId}/remove-user', [JobRoleController::class, 'removeUserFromJobRole'])->name('job-roles.remove-user');
+
+   Route::resource('job-roles', JobRoleController::class);
    // Guides Routes
    Route::get('/job-roles/{jobRole}/guides/create', [JobRoleController::class, 'createGuide'])->name('job-roles.guides.create');
    Route::get('/job-roles/{jobRole}/guides/{guide}/edit', [JobRoleController::class, 'editGuide'])->name('job-roles.guides.edit');
    Route::put('/job-roles/{jobRole}/guides/{guide}', [JobRoleController::class, 'updateGuide'])->name('job-roles.guides.update');
    Route::post('/job-roles/{jobRole}/guides', [JobRoleController::class, 'addGuide'])->name('job-roles.guides.store');
+   //
+
 });

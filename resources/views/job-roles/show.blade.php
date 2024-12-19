@@ -14,6 +14,9 @@
             <h4>Guide Name: {{ $guide->title }}</h4>
             <p>Description: {{ $guide->content }}</p>
             <p>Created at: {{ $guide->created_at->format('M d, Y') }}</p>
+            <p>Updated at: {{ $guide->updated_at->format('M d, Y') }}</p>
+            {{-- add a p tag displaying the  --}}
+
 
             <a href="{{ route('job-roles.guides.edit', [$jobRole, $guide]) }}" class="btn btn-warning">Edit</a>
             <br/>
