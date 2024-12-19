@@ -21,8 +21,8 @@
             <option value="{{ $user->id }}">{{ $user->name }}</option>
         @endforeach
     </select>
-
-    <button type="submit">Assign</button>
+<br/>
+    <button type="submit">Submit and Assign</button>
 </form>
-<a href="{{ route('users.index') }}" class="btn btn-secondary mt-3">Cancel</a>
+<a href="{{ route('hierarchy.index') }}" class="btn btn-secondary mt-3">Cancel</a>
 @endsection

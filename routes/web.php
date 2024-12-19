@@ -22,7 +22,9 @@ Route::middleware([
    // User routes
    Route::get('/users', 'App\Http\Controllers\UserController@index')->name('users.index');
 
-   // Hierarchy Management Routes
+   // Hierarchy Routes
+   Route::get('/hierarchy', [HierarchyController::class, 'index'])->name('hierarchy.index');
+
    Route::get('/hierarchy/assign', [HierarchyController::class, 'assign'])->name('hierarchy.assign');
    Route::post('/hierarchy/assign', [HierarchyController::class, 'store'])->name('hierarchy.store');
 

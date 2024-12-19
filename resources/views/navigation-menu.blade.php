@@ -22,8 +22,8 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('job-roles.assign') }}" :active="request()->routeIs('job-roles.assign')">
-                        {{ __('Assign Hierarchy') }}
+                    <x-nav-link href="{{ route('hierarchy.assign') }}" :active="request()->routeIs('hierarchy.assign')">
+                        {{ __('Hierarchy') }}
                     </x-nav-link>
                 </div>
             </div>
