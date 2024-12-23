@@ -8,13 +8,13 @@
 <table class="table mt-3">
     <thead>
         <tr>
-            <th>Name</th>
+            <th class="p-3">Name</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($jobRoles as $jobRole)
-        <tr>
+        <tr class="p-5">
             <td>{{ $jobRole->name }}</td>
             <td>
 
@@ -33,7 +33,6 @@
                         Delete
                     </button>
                 </form>
-                
 
                 <!-- Link to Create Guide for this Job Role -->
                 <a href="{{ route('job-roles.guides.create', $jobRole->id) }}" class="btn btn-success ml-2">+ Guide</a>
