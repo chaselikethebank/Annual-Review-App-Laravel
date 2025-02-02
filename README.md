@@ -79,3 +79,8 @@ updated_at
 users
 id
 job_role_id (foreign key referencing job_roles.id)
+
+
+# development login 
+a@admin.com
+newpassword

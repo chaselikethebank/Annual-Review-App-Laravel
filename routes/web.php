@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobRoleController;
 use App\Http\Controllers\HierarchyController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\AssessmentController;
 
 
 Route::get('/', function () {
@@ -42,5 +44,12 @@ Route::middleware([
    Route::post('/job-roles/{jobRole}/guides', [JobRoleController::class, 'addGuide'])->name('job-roles.guides.store');
    //
 
+    // Reviews
+    Route::resource('reviews', ReviewController::class);
+    Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
 
+
+    // Assessments 
+    Route::resource('assessments', AssessmentController::class);
+    
 });

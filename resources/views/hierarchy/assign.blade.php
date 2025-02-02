@@ -1,6 +1,6 @@
 {{-- resources/views/assign.blade.php --}}
+<x-app-layout>
 
-@extends('layouts.app')
 
 
 @section('content')
@@ -26,3 +26,4 @@
 </form>
 <a href="{{ route('hierarchy.index') }}" class="btn btn-secondary mt-3">Cancel</a>
 @endsection
+</x-app-layout>

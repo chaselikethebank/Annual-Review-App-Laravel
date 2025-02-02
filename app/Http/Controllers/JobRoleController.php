@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\JobRole;
 use App\Models\Guide;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class JobRoleController extends Controller {
     public function assign() {
