@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assessment; 
 use App\Models\Review;
 use App\Models\User;
 use App\Models\JobRole;
@@ -13,13 +14,12 @@ class ReviewController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    $reviews = Review::with(['user', 'reviewee', 'jobRole'])->get();
+    {
+        $reviews = Review::with(['user', 'reviewee', 'jobRole'])->get();
+        $assessments = Assessment::with(['user', 'reviewee', 'jobRole'])->get();  
     
-    // dd($reviews);  
-    
-    return view('reviews.index', compact('reviews'));
-}
+        return view('reviews.index', compact('reviews', 'assessments'));
+    }
 
     /**
      * Show the form for creating a new resource.

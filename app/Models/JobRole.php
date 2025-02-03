@@ -22,4 +22,9 @@ class JobRole extends Model
     {
         return $this->hasMany(Guide::class);
     }
+
+        public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

@@ -51,5 +51,10 @@ Route::middleware([
 
     // Assessments 
     Route::resource('assessments', AssessmentController::class);
+    Route::get('/assessments', [AssessmentController::class, 'index'])->name('assessments.index');
+    Route::get('/assessments/create/{reviewId}', [AssessmentController::class, 'create'])->name('assessments.create');
+
+
+
     
 });

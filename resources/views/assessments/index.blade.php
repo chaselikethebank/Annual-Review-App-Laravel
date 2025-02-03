@@ -1,55 +1,106 @@
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Reviews Assigned to {{ auth()->user()->name }}
+        </h2>
+    </x-slot>
 
-@section('content')
- 
+    @section('content')
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-<div class="container">
-    <h1 class="mb-4">Assessments</h1>
-    
-    @if($assessments->isEmpty())
-        <div class="alert alert-info">
-            No assessments available.
+            @if (auth()->user()->isAdmin())
+                <h3 class="text-lg font-medium"></h3>
+            @else
+                <h3 class="text-lg font-medium">My Reviews and Assessments</h3>
+
+
+            @endif
+
+            <div class="flex pb-4 mb-4 mx-4">
+                <!-- Search Reviewer -->
+                <input type="text" id="searchReviewer" class="border p-2 rounded" placeholder="Search Reviewer">
+            </div>
+
+            <script>
+            document.getElementById('searchReviewer').addEventListener('input', function () {
+                filterTable('reviewer', this.value.toLowerCase());
+            });
+
+            document.getElementById('searchReviewee').addEventListener('input', function () {
+                filterTable('reviewee', this.value.toLowerCase());
+            });
+
+            function filterTable(className, searchTerm) {
+                document.querySelectorAll(`#reviewsTable tr`).forEach(row => {
+                    const text = row.querySelector(`.${className}`)?.textContent.toLowerCase() || '';
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            }
+            </script>
+
+            <div class="bg-white shadow-xl rounded-lg overflow-hidden    ">
+                @if ($reviews->isNotEmpty())
+                    <table class="w-full table-auto ">
+                        <thead class="bg-gray-50 border-b" >
+                            <tr>
+                                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Reviewer</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Reviewee</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviewsTable">
+                            @foreach ($reviews as $review)
+                                <tr class="border-t hover:bg-gray-50 transition duration-200">
+                                    <td class="px-6 py-4 text-sm text-gray-800">{{ $review->user->name }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-800">{{ $review->reviewee->name }}</td>
+                                    <td class="px-6 py-4">
+                                        <x-button-start href="{{ route('assessments.create', $review->id) }}">
+                                            Begin Assessment
+                                        </x-button-start>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p class="text-gray-600">No pending reviews.</p>
+                @endif
+
+                @if ($assessments->isNotEmpty())
+                    <h4 class="font-medium text-gray-700 mt-6">Assigned Assessments</h4>
+                    <table class="w-full table-auto mt-2">
+                        <thead class="bg-gray-50 border-b">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Job Role</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Guide</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Status</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviewsTable">
+                            @foreach ($assessments as $assessment)
+                                <tr class="border-t hover:bg-gray-50 transition duration-200">
+                                    <td class="px-6 py-4 text-sm text-gray-800">{{ $assessment->jobRole->name }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-800">{{ $assessment->guide->name }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-800">
+                                        {{ $assessment->status ? 'Completed' : 'In Progress' }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <x-button-start href="{{ route('assessments.show', $assessment->id) }}">
+                                            Continue Assessment
+                                        </x-button-start>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                 
+                 
+                @endif
+
+            </div>
         </div>
-    @else
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Reviewer</th>
-                    <th>Reviewee</th>
-                    <th>Job Role</th>
-                    <th>Review Type</th>
-                    <th>Term</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($assessments as $assessment)
-                    <tr>
-                        <td>{{ $assessment->reviewer->name }}</td>
-                        <td>{{ $assessment->reviewee->name }}</td>
-                        <td>{{ $assessment->jobRole->name }}</td>
-                        <td>{{ ucfirst(str_replace('_', ' ', $assessment->review_type)) }}</td>
-                        <td>{{ $assessment->calendar_term }}</td>
-                        <td>
-                            <a href="{{ route('assessments.show', $assessment->id) }}" class="btn btn-info btn-sm">View</a>
-                            <a href="{{ route('assessments.edit', $assessment->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                            <form action="{{ route('assessments.destroy', $assessment->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
-
-    @if(auth()->user()->isAdmin())
-        <a href="{{ route('assessments.create') }}" class="btn btn-primary mt-4">+ Create Assessment</a>
-    @endif
-</div>
-
-@endsection
-
+    </div>
+    @endsection
 </x-app-layout>

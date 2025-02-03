@@ -87,4 +87,26 @@ public function managers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_user', 'manager_id', 'subordinate_id');
     }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Determine if the user is a regular user.
+     *
+     * @return bool
+     */
+    public function isUser()
+    {
+        return $this->role === 'user';
+    }
+
+    public function jobRole()
+        {
+            return $this->belongsTo(JobRole::class);
+        }
+
+
 }

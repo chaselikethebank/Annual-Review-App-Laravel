@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Reviews List') }}
+            {{ __('Reviews List Org-Wide') }}
         </h2>
     </x-slot>
 
@@ -9,7 +9,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-             <div class="flex pb-4 mb-4 mx-4">
+            <div class="flex pb-4 mb-4 mx-4">
                 <!-- Search Reviewer -->
                 <input type="text" id="searchReviewer" class="border p-2 rounded" placeholder="Search Reviewer">
             </div>
@@ -29,12 +29,9 @@
                     row.style.display = text.includes(searchTerm) ? '' : 'none';
                 });
             }
-
             </script>
 
             <div class="bg-white shadow-xl rounded-lg overflow-hidden">
-
-
 
                 @if ($reviews->isEmpty())
                     <p class="text-gray-600">No reviews completed.</p>
@@ -84,9 +81,9 @@
                         </tbody>
                     </table>
                     <div class="px-6 py-4 flex justify-end">
-                     <x-button-start>
-                        <a href="{{ route('reviews.create') }}">+ Create Review</a>
-                    </x-button-start>
+                        <x-button-start>
+                            <a href="{{ route('reviews.create') }}">+ Create Review</a>
+                        </x-button-start>
                     <div>
                 @endif
             </div>
