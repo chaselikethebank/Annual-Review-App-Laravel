@@ -6,6 +6,7 @@ use App\Http\Controllers\HierarchyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AssessmentController;
+use App\Http\Controllers\BehavioralController;
 
 
 Route::get('/', function () {
@@ -53,8 +54,13 @@ Route::middleware([
     Route::resource('assessments', AssessmentController::class);
     Route::get('/assessments', [AssessmentController::class, 'index'])->name('assessments.index');
     Route::get('/assessments/create/{reviewId}', [AssessmentController::class, 'create'])->name('assessments.create');
+    Route::post('/assessments/store', [AssessmentController::class, 'store'])->name('assessment.store');
+
+
+    // Behaviorals 
+    Route::resource('behaviorals', BehavioralController::class);
+    Route::get('assessments/{id}', [AssessmentController::class, 'show'])->name('assessments.show');
 
 
 
-    
 });

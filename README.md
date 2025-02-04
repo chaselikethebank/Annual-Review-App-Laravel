@@ -84,3 +84,8 @@ job_role_id (foreign key referencing job_roles.id)
 # development login 
 a@admin.com
 newpassword
+
+# Controller hand-off
+ReviewController focused solely on handling reviews.
+In AssessmentController, focus is on creating assessments, transitioning from a review when a user clicks to start the assessment.
+logic in the AssessmentController to trigger an assessment from a review

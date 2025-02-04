@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assessment;
+use App\Models\Behavioral;
 use App\Models\Review;
 use App\Models\JobRole;
 use App\Models\Guide;
@@ -31,124 +32,77 @@ class AssessmentController extends Controller
     }
 
 
-    public function show($id)
+    // public function show($id)
+    // {
+    //     $assessment = Assessment::findOrFail($id);
+    //     return view('assessments.show', compact('assessment'));
+    // }
+
+    public function create($review_id)
     {
-        $assessment = Assessment::findOrFail($id);
-        return view('assessments.show', compact('assessment'));
+        $review = Review::with(['user', 'reviewee', 'jobRole'])->findOrFail($review_id);
+    
+        // Get guides specific to this job role
+        $guides = Guide::where('job_role_id', $review->job_role_id)->get();
+    
+        // Get org-wide behavioral questions
+        $behavioralQuestions = Behavioral::all();
+    
+        return view('assessments.create', compact('review', 'guides', 'behavioralQuestions'));
     }
-
-    public function create($reviewId)
-    {
-        $review = Review::findOrFail($reviewId);
-
-        $userJobRole = auth()->user()->jobRole;
-
-        if (!$userJobRole) {
-            return redirect()->route('home')->with('error', 'No job role assigned to this user.');
-        }
-
-        $guides = $userJobRole->guides;
-
-        return view('assessments.create', compact('userJobRole', 'review', 'guides'));
-        
-    }
-
-
+    
+    
     public function store(Request $request)
     {
-        // Validate both guide ratings and behavioral question ratings
-        $validated = $request->validate([
-            // Validation for guides
-            'guide_1_rating' => 'required|integer|between:1,5',
-            'guide_1_explanation' => 'nullable|string',
-            
-            'guide_2_rating' => 'required|integer|between:1,5',
-            'guide_2_explanation' => 'nullable|string',
-            
-            'guide_3_rating' => 'required|integer|between:1,5',
-            'guide_3_explanation' => 'nullable|string',
-            
-            'guide_4_rating' => 'required|integer|between:1,5',
-            'guide_4_explanation' => 'nullable|string',
-
-            'guide_5_rating' => 'required|integer|between:1,5',
-            'guide_5_explanation' => 'nullable|string',
-            
-
-            // Validation for behavioral questions
-            'behavioral_1_rating' => 'required|integer|between:1,5',
-            'behavioral_1_explanation' => 'nullable|string',
-
-            'behavioral_2_rating' => 'required|integer|between:1,5',
-            'behavioral_2_explanation' => 'nullable|string',
-
-            'behavioral_3_rating' => 'required|integer|between:1,5',
-            'behavioral_3_explanation' => 'nullable|string',
-
-            'behavioral_4_rating' => 'required|integer|between:1,5',
-            'behavioral_4_explanation' => 'nullable|string',
-
-            'behavioral_5_rating' => 'required|integer|between:1,5',
-            'behavioral_5_explanation' => 'nullable|string',
-
-        ]);
-
-        $assessment = new Assessment();
-        $assessment->user_id = auth()->id();
-        $assessment->review_id = $request->review_id;  
-        $assessment->save();
-
-        // Save the ratings and explanations for each guide question
-        foreach ($validated as $key => $value) {
-            if (strpos($key, 'guide_') === 0) {
-                // Extract guideId from the key (e.g., guide_1_rating)
-                $guideId = explode('_', $key)[1]; 
-                $assessment->guides()->attach($guideId, [
-                    'rating' => $validated["guide_{$guideId}_rating"],
-                    'explanation' => $validated["guide_{$guideId}_explanation"],
-                ]);
-            }
-
-            // Save ratings and explanations for behavioral questions
-            if (strpos($key, 'behavioral_') === 0) {
-                $questionId = explode('_', $key)[1]; 
-                $assessment->behavioralQuestions()->attach($questionId, [
-                    'rating' => $validated["behavioral_{$questionId}_rating"],
-                    'explanation' => $validated["behavioral_{$questionId}_explanation"],
-                ]);
-            }
-        }
-
-        // Redirect after successful submission
-        return redirect()->route('assessment.index')->with('success', 'Assessment submitted successfully.');
-    }
-
-
-    public function edit($id)
-    {
-        // Show form to edit an existing assessment
-        $assessment = Assessment::findOrFail($id);
-        return view('assessments.edit', compact('assessment'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        // Update an existing assessment
+        // Validate the input data
         $validated = $request->validate([
             'review_id' => 'required|exists:reviews,id',
             'job_role_id' => 'required|exists:job_roles,id',
-            'guide_id' => 'required|exists:guides,id',
-            'rating' => 'required|in:1,2,3,4,5',
-            'feedback' => 'nullable|string|max:1000',
-            'additional_notes' => 'nullable|string|max:1000',
-            'status' => 'required|boolean',
+            'guides' => 'required|array', // Ensure guides are passed
+            'guides.*.rating' => 'required|integer|between:1,5', // Validate ratings for guides
+            'guides.*.feedback' => 'nullable|string', // Validate feedback for guides
         ]);
-
-        $assessment = Assessment::findOrFail($id);
-        $assessment->update($validated);
-
-        return redirect()->route('assessments.index')->with('success', 'Assessment updated successfully!');
+    
+        // Store the assessment record
+        $assessment = new Assessment();
+        $assessment->review_id = $request->review_id;
+        $assessment->job_role_id = $request->job_role_id;
+        $assessment->guide_feedback = '';
+        $assessment->behavioral_feedback = '';
+        $assessment->guide_ratings = '';
+        $assessment->behavioral_ratings = '';
+        
+        // Now store the guide ratings and feedback (from behavioral questions)
+        foreach ($request->guides as $guideId => $data) {
+            if (!empty($data['rating'])) {
+                // Concatenate feedback with a newline for readability (to separate feedbacks for each guide)
+                $assessment->guide_feedback .= isset($data['feedback']) ? $data['feedback'] . "\n" : "";
+                $assessment->behavioral_feedback .= isset($data['behavioral_feedback']) ? $data['behavioral_feedback'] . "\n" : "";
+                $assessment->guide_ratings .= $data['rating'] . "\n";
+                $assessment->behavioral_ratings .= isset($data['behavioral_rating']) ? $data['behavioral_rating'] . "\n" : "";
+            }
+        }
+    
+        // Save the assessment data
+        $assessment->save();
+    
+        // Decode the ratings and feedback before passing them to the view
+        $guideRatings = explode("\n", rtrim($assessment->guide_ratings, "\n"));
+        $guideFeedback = explode("\n", rtrim($assessment->guide_feedback, "\n"));
+        $behavioralRatings = explode("\n", rtrim($assessment->behavioral_ratings, "\n"));
+        $behavioralFeedback = explode("\n", rtrim($assessment->behavioral_feedback, "\n"));
+    
+        return view('assessments.show', compact('assessment', 'guideRatings', 'guideFeedback', 'behavioralRatings', 'behavioralFeedback'));
     }
+    
+    
+
+    public function edit($id)
+    {
+        $assessment = Assessment::findOrFail($id);
+        return view('assessments.edit', compact('assessment'));
+    }
+     
 
     public function destroy($id)
     {
@@ -158,4 +112,44 @@ class AssessmentController extends Controller
 
         return redirect()->route('assessments.index')->with('success', 'Assessment deleted successfully!');
     }
+
+    public function show($id)
+    {
+        // Get the assessment from the database
+        $assessment = Assessment::findOrFail($id);
+    
+        // Get the associated job role
+        $jobRole = JobRole::findOrFail($assessment->job_role_id);
+    
+        // Get the review data
+        $review = Review::findOrFail($assessment->review_id);
+    
+        // Process the guide feedback into structured data
+        $guideFeedback = explode("\n", rtrim($assessment->guide_feedback, "\n"));
+        $formattedGuideData = [];
+        foreach ($guideFeedback as $feedback) {
+            $guideParts = explode('|', $feedback);
+            if (count($guideParts) >= 5) {
+                $formattedGuideData[] = $guideParts;
+            } else {
+                $formattedGuideData[] = array_pad($guideParts, 5, 'N/A');
+            }
+        }
+    
+        // If no guide feedback, set as empty array
+        if (empty($formattedGuideData)) {
+            $formattedGuideData = [];
+        }
+    
+        // Process the behavioral ratings and feedback
+        $behavioralRatings = json_decode($assessment->behavioral_ratings, true) ?? [];
+        $behavioralFeedback = json_decode($assessment->behavioral_feedback, true) ?? [];
+
+        dd($formattedGuideData, $behavioralRatings, $behavioralFeedback);
+
+    
+        return view('assessments.show', compact('assessment', 'jobRole', 'review', 'formattedGuideData', 'behavioralRatings', 'behavioralFeedback'));
+    }
+            
+
 }

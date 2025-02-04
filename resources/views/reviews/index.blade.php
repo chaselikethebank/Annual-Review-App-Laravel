@@ -66,8 +66,8 @@
                                         {{ $review->calendar_term }}
                                     </td>
                                     <td class="px-6 py-4 space-x-2">
-                                        <x-button-start href="{{ route('reviews.show', $review->id) }}">View</x-button-start>
-                                        <x-button-start href="{{ route('reviews.edit', $review->id) }}" class="text-yellow-600">Edit</x-button-start>
+                                        {{-- <x-button-start href="{{ route('reviews.show', $review->id) }}">View</x-button-start> --}}
+                                        {{-- <x-button-start href="{{ route('reviews.edit', $review->id) }}" class="text-yellow-600">Edit</x-button-start> --}}
                                         <form action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')

@@ -10,27 +10,36 @@ class Assessment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'review_id',           // Link to the review, which is a bundle of foreign ids for user, job role, guide, and term
-        'job_role_id',         // Foreign key to a specific job role
-        'guide_id',            // Foreign key to a specific guide
-        'rating',              // Rating from 1 to 5
-        'feedback',            // Feedback for the guide, mandatory if rating is 1 or 5
-        'additional_notes',    // Extra comment, not tied to any specific guide
-        'status',              // Boolean to track whether the assessment is complete
+        'review_id',              // Link to the review, which contains foreign keys for job_role, guide, etc.
+        'job_role_id',            // Foreign key to a specific job role
+        'rating',                 // Rating for the assessment (1-5)
+        'feedback',               // Feedback for the assessment
+        'additional_notes',       // Extra comments
+        'status',                 // Track if the assessment is complete
+        'guide_feedback',         // Feedback from the guide
+        'behavioral_feedback',    // Feedback on behavioral questions
+        'guide_ratings',          // Ratings for the guide
+        'behavioral_ratings',     // Ratings for behavioral questions
     ];
+    
 
     public function review()
     {
-        return $this->belongsTo(Review::class);
+        return $this->belongsTo(Review::class);  // Each assessment belongs to a review
     }
 
     public function jobRole()
     {
-        return $this->belongsTo(JobRole::class);
+        return $this->belongsTo(JobRole::class);  // Each assessment belongs to a job role
     }
 
     public function guide()
     {
-        return $this->belongsTo(Guide::class);
+        return $this->belongsTo(Guide::class);  // Each assessment belongs to one guide
+    }
+
+    public function behaviorals()
+    {
+        return $this->hasMany(Behavioral::class);  // Assessment has many behavioral responses
     }
 }
