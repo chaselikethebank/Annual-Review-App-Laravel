@@ -17,15 +17,16 @@
                     </x-nav-link>
                 </div> --}}
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('behaviorals.index') }}" :active="request()->routeIs('behaviorals.index')">
-                        {{ __('Behaviorals') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('job-roles.index') }}" :active="request()->routeIs('job-roles.index')">
                         {{ __('Job Roles and Guides') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('behaviorals.index') }}" :active="request()->routeIs('behaviorals.index')">
+                        {{ __('Behaviorals') }}
+                    </x-nav-link>
+                </div>
+
                 {{-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('hierarchy.index') }}" :active="request()->routeIs('hierarchy.index')">
                         {{ __('Hierarchy') }}

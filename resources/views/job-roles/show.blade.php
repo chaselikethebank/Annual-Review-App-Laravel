@@ -13,7 +13,7 @@
 
     @section('content')
     <div class="container mx-auto px-4 py-8">
-        <div class="bg-white shadow-xl rounded-lg overflow-hidden p-6">
+        <div class="bg-white  rounded-lg overflow-hidden p-6">
             <x-button-start href="{{ route('job-roles.guides.create', $jobRole->id) }}">+ Guide</x-button-start>
 
             <h2 class="text-lg font-semibold text-gray-800 my-3"></h2>

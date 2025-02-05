@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <x-slot name="header">
+    <x-slot name="header" style="shadow: none;">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Job Roles and Guides') }}
         </h2>
@@ -8,7 +8,7 @@
 
     @section('content')
     <div class="container mx-auto px-4 py-8">
-        <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+        <div class="bg-white  rounded-lg overflow-hidden">
             <table class="w-full table-auto">
                 <thead class="bg-gray-50 border-b">
                     <tr>

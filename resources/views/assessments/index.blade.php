@@ -13,8 +13,6 @@
                 <h3 class="text-lg font-medium"></h3>
             @else
                 <h3 class="text-lg font-medium">My Reviews and Assessments</h3>
-
-
             @endif
 
             <div class="flex pb-4 mb-4 mx-4">
@@ -39,10 +37,10 @@
             }
             </script>
 
-            <div class="bg-white shadow-xl rounded-lg overflow-hidden    ">
+            <div class="bg-white rounded-lg overflow-hidden">
                 @if ($reviews->isNotEmpty())
-                    <table class="w-full table-auto ">
-                        <thead class="bg-gray-50 border-b" >
+                    <table class="w-full table-auto">
+                        <thead class="bg-gray-50 border-b">
                             <tr>
                                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Reviewer</th>
                                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Reviewee</th>
@@ -51,16 +49,34 @@
                         </thead>
                         <tbody id="reviewsTable">
                             @foreach ($reviews as $review)
-                                <tr class="border-t hover:bg-gray-50 transition duration-200">
-                                    <td class="px-6 py-4 text-sm text-gray-800">{{ $review->user->name }}</td>
-                                    <td class="px-6 py-4 text-sm text-gray-800">{{ $review->reviewee->name }}</td>
-                                    <td class="px-6 py-4">
+                            <tr class="border-t hover:bg-gray-50 transition duration-200">
+                                <td class="px-6 py-4 text-sm text-gray-800">{{ $review->user->name }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-800">{{ $review->reviewee->name }}</td>
+                                <td class="px-6 py-4">
+                                    @if ($review->assessments->isEmpty())
                                         <x-button-start href="{{ route('assessments.create', $review->id) }}">
                                             Begin Assessment
                                         </x-button-start>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                    @else
+                                        @php
+                                            $assessment = $review->assessments->first();
+                                        @endphp
+                                        @if ($assessment && ($assessment->status === null || $assessment->status == 0))
+                                            <x-button-start href="{{ route('assessments.show', $assessment->id) }}">
+                                                Continue Assessment
+                                            </x-button-start>
+                                           {{-- <span class="text-sm text-yellow-500 !important">Incomplete</span> --}}
+                                        @elseif ($assessment && $assessment->status == 1)
+                                            <x-button-start href="{{ route('assessments.edit', $assessment->id) }}">
+                                                Continue Assessment
+                                            </x-button-start>
+                                            <span class="text-sm text-green-500">Complete</span>
+                                        @endif
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+
                         </tbody>
                     </table>
                 @else
@@ -84,7 +100,11 @@
                                     <td class="px-6 py-4 text-sm text-gray-800">{{ $assessment->jobRole->name }}</td>
                                     <td class="px-6 py-4 text-sm text-gray-800">{{ $assessment->guide->name }}</td>
                                     <td class="px-6 py-4 text-sm text-gray-800">
-                                        {{ $assessment->status ? 'Completed' : 'In Progress' }}
+                                        @if ($assessment->status)
+                                            <span class="text-green-500">Complete</span>
+                                        @else
+                                            <span class="text-yellow-500">Incomplete</span>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4">
                                         <x-button-start href="{{ route('assessments.show', $assessment->id) }}">
@@ -95,10 +115,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                 
-                 
                 @endif
-
             </div>
         </div>
     </div>

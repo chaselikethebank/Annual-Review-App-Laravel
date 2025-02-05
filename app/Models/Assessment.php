@@ -25,21 +25,23 @@ class Assessment extends Model
 
     public function review()
     {
-        return $this->belongsTo(Review::class);  // Each assessment belongs to a review
+        return $this->belongsTo(Review::class);   
     }
 
     public function jobRole()
     {
-        return $this->belongsTo(JobRole::class);  // Each assessment belongs to a job role
+        return $this->belongsTo(JobRole::class);  
     }
 
     public function guide()
     {
-        return $this->belongsTo(Guide::class);  // Each assessment belongs to one guide
+        return $this->belongsTo(Guide::class);  
     }
 
     public function behaviorals()
     {
-        return $this->hasMany(Behavioral::class);  // Assessment has many behavioral responses
+        return $this->hasMany(Behavioral::class);  
     }
+
+   
 }

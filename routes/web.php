@@ -60,6 +60,8 @@ Route::middleware([
     // Behaviorals 
     Route::resource('behaviorals', BehavioralController::class);
     Route::get('assessments/{id}', [AssessmentController::class, 'show'])->name('assessments.show');
+    Route::get('/assessments/{assessment}/edit', [AssessmentController::class, 'edit'])->name('assessments.edit');
+
 
 
 

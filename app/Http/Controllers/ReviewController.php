@@ -48,7 +48,7 @@ class ReviewController extends Controller
 
         Review::create($request->all());
 
-        return redirect()->route('reviews.index')->with('success', 'Review created successfully.');
+        return redirect()->route('assessments.index')->with('success', 'Review created successfully.');
     }
 
     /**

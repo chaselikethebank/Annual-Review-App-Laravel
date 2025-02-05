@@ -32,12 +32,6 @@ class AssessmentController extends Controller
     }
 
 
-    // public function show($id)
-    // {
-    //     $assessment = Assessment::findOrFail($id);
-    //     return view('assessments.show', compact('assessment'));
-    // }
-
     public function create($review_id)
     {
         $review = Review::with(['user', 'reviewee', 'jobRole'])->findOrFail($review_id);
@@ -85,6 +79,9 @@ class AssessmentController extends Controller
     
         // Save the assessment data
         $assessment->save();
+
+        $jobRole = JobRole::findOrFail($assessment->job_role_id);
+
     
         // Decode the ratings and feedback before passing them to the view
         $guideRatings = explode("\n", rtrim($assessment->guide_ratings, "\n"));
@@ -92,16 +89,54 @@ class AssessmentController extends Controller
         $behavioralRatings = explode("\n", rtrim($assessment->behavioral_ratings, "\n"));
         $behavioralFeedback = explode("\n", rtrim($assessment->behavioral_feedback, "\n"));
     
-        return view('assessments.show', compact('assessment', 'guideRatings', 'guideFeedback', 'behavioralRatings', 'behavioralFeedback'));
+        return view('assessments.show', compact('assessment', 'jobRole', 'guideRatings', 'guideFeedback', 'behavioralRatings', 'behavioralFeedback'));
     }
     
     
 
-    public function edit($id)
+    public function edit($assessment_id)
     {
-        $assessment = Assessment::findOrFail($id);
-        return view('assessments.edit', compact('assessment'));
+        $assessment = Assessment::with(['review', 'review.guides', 'review.behavioralQuestions'])
+                                ->findOrFail($assessment_id);
+    
+        $guides = Guide::where('job_role_id', $assessment->review->job_role_id)->get();
+        
+        $behavioralQuestions = Behavioral::all();
+        
+        return view('assessments.edit', compact('assessment', 'guides', 'behavioralQuestions'));
     }
+    
+
+    public function update(Request $request, $assessment_id)
+    {
+        $validated = $request->validate([
+            'guides' => 'required|array',
+            'behavioral' => 'required|array',
+        ]);
+    
+        $assessment = Assessment::findOrFail($assessment_id);
+        
+    
+        foreach ($validated['guides'] as $guide_id => $data) {
+            $guide = Guide::findOrFail($guide_id);
+            $assessment->guides()->updateExistingPivot($guide_id, [
+                'rating' => $data['rating'],
+                'feedback' => $data['feedback'],
+            ]);
+        }
+    
+        foreach ($validated['behavioral'] as $behavioral_id => $data) {
+            $behavioral = Behavioral::findOrFail($behavioral_id);
+            $assessment->behaviorals()->updateExistingPivot($behavioral_id, [
+                'rating' => $data['rating'],
+                'response' => $data['response'],
+            ]);
+        }
+    
+        return redirect()->route('assessments.show', $assessment_id)->with('status', 'Assessment updated!');
+    }
+    
+
      
 
     public function destroy($id)
@@ -145,10 +180,10 @@ class AssessmentController extends Controller
         $behavioralRatings = json_decode($assessment->behavioral_ratings, true) ?? [];
         $behavioralFeedback = json_decode($assessment->behavioral_feedback, true) ?? [];
 
-        dd($formattedGuideData, $behavioralRatings, $behavioralFeedback);
+        // dd($formattedGuideData, $behavioralRatings, $behavioralFeedback);
 
     
-        return view('assessments.show', compact('assessment', 'jobRole', 'review', 'formattedGuideData', 'behavioralRatings', 'behavioralFeedback'));
+        return view('assessments.show', compact('formattedGuideData', 'assessment', 'jobRole', 'review', 'formattedGuideData', 'behavioralRatings', 'behavioralFeedback'));
     }
             
 

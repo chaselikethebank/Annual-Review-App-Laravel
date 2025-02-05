@@ -6,7 +6,7 @@
     </x-slot>
 
     @section('content')
-    <div class="py-12">
+    <div class="container mx-auto px-4 py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <div class="flex pb-4 mb-4 mx-4">
@@ -31,7 +31,7 @@
             }
             </script>
 
-            <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+            <div class="bg-white  rounded-lg overflow-hidden">
 
                 @if ($reviews->isEmpty())
                     <p class="text-gray-600">No reviews completed.</p>
@@ -44,14 +44,16 @@
                                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Job Role</th>
                                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Review Type</th>
                                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Term</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Review ID</th>
                                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="reviewsTable">
                             @foreach ($reviews as $review)
                                 <tr class="border-t hover:bg-gray-50 transition duration-200">
+                                
                                     <td class="px-6 py-4 text-sm text-gray-800 reviewer">
-                                        {{ $review->user ? $review->user->name : 'No reviewer assigned' }}
+                                         {{ $review->user ? $review->user->name : 'No reviewer assigned' }}
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-800 reviewee">
                                         {{ $review->reviewee ? $review->reviewee->name : 'No reviewee assigned' }}
@@ -64,6 +66,15 @@
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-800">
                                         {{ $review->calendar_term }}
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-800 reviewer">
+                                        @if ($review->assessments->isNotEmpty())
+                                            <x-link-start href="{{ route('assessments.show', $review->assessments->first()->id) }}">
+                                                {{ $review->user ? $review->id : 'No reviewer ID assigned' }}
+                                            </x-link-start>
+                                        @else
+                                            No assessment available
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 space-x-2">
                                         {{-- <x-button-start href="{{ route('reviews.show', $review->id) }}">View</x-button-start> --}}
