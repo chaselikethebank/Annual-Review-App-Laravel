@@ -89,3 +89,29 @@ newpassword
 ReviewController focused solely on handling reviews.
 In AssessmentController, focus is on creating assessments, transitioning from a review when a user clicks to start the assessment.
 logic in the AssessmentController to trigger an assessment from a review
+
+# data structure Goal
+```
+{
+  "id": 1,
+  "user": {
+    "id": 5,
+    "name": "John Doe"
+  },
+  "assessments": [
+    {
+      "id": 1,
+      "job_role": {
+        "id": 3,
+        "name": "Software Developer"
+      },
+      "behavioral": {
+        "id": 2,
+        "title": "Communication Skills"
+      },
+      "feedback": "Great communication skills.",
+      "behavioral_feedback": "Needs improvement in communication during team meetings."
+    }
+  ]
+}
+```
