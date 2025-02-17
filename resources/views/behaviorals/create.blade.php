@@ -1,56 +1,59 @@
 <x-app-layout>
-
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create Behavioral Question') }}
+            {{ __('Create Behavioral ') }}
         </h2>
     </x-slot>
 
     @section('content')
-    <div class="container mx-auto px-4 py-8">
-        <div class="bg-white shadow-xl rounded-lg overflow-hidden">
-            <form action="{{ route('behaviorals.store') }}" method="POST">
-                @csrf
-                <div class="px-6 py-4">
+        <div class="container mx-auto px-4 py-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <form action="{{ route('behaviorals.store') }}" method="POST">
+                    @csrf
 
-                    <!-- Title -->
+                    <!-- Title Field -->
                     <div class="mb-4">
-                        <label for="title" class="block text-sm font-medium text-gray-600">Title</label>
-                        <input type="text" id="title" name="title" class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" value="{{ old('title') }}" required>
-                        @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <x-label for="title" value="Title" />
+                        <x-input id="title" class="block mt-1 w-full" type="text" name="title" required />
                     </div>
 
-                    <!-- Description -->
+                    <!-- Description Field -->
                     <div class="mb-4">
-                        <label for="description" class="block text-sm font-medium text-gray-600">Description</label>
-                        <textarea id="description" name="description" rows="4" class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>{{ old('description') }}</textarea>
-                        @error('description') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <x-label for="description" value="Description" />
+                        <textarea id="description" class="block mt-1 w-full border-gray-300 rounded-md" name="description" rows="4"
+                            required></textarea>
                     </div>
 
-                    <!-- Qualifiers (1-5) -->
-                    @foreach (range(1, 5) as $i)
-                        <div class="mb-4">
-                            <label for="qualifying_{{ $i }}" class="block text-sm font-medium text-gray-600">Name the Qualifier for a rating of {{ $i }}/5</label>
-                            <textarea id="qualifying_{{ $i }}" name="qualifying_{{ $i }}" rows="3" class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>{{ old('qualifying_' . $i) }}</textarea>
-                            @error('qualifying_' . $i) <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="mb-4">
-                            <label for="qualifying_{{ $i }}_note" class="block text-sm font-medium text-gray-600">Qualifying Note for {{ $i }}/5</label>
-                            <textarea id="qualifying_{{ $i }}_note" name="qualifying_{{ $i }}_note" rows="3" class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>{{ old('qualifying_' . $i . '_note') }}</textarea>
-                            @error('qualifying_' . $i . '_note') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-                        </div>
-                    @endforeach
+                    <!-- Qualifiers Section -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-2">Qualifiers</h3>
+
+                        @foreach (range(1, 5) as $rating)
+                            <div class="mb-4 p-4 border rounded-lg bg-gray-50">
+                                <h4 class="text-md font-medium mb-2">Rating {{ $rating }}/5</h4>
+
+                                <div class="mb-2">
+                                    <x-label for="qualifiers[{{ $rating }}][title]" value="Title" />
+                                    <x-input id="qualifiers[{{ $rating }}][title]" class="block mt-1 w-full"
+                                        type="text" name="qualifiers[{{ $rating }}][title]" required />
+                                </div>
+
+                                <div class="mb-2">
+                                    <x-label for="qualifiers[{{ $rating }}][note]" value="Note" />
+                                    <textarea id="qualifiers[{{ $rating }}][note]" class="block mt-1 w-full border-gray-300 rounded-md"
+                                        name="qualifiers[{{ $rating }}][note]" rows="3" required></textarea>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
 
                     <!-- Action buttons -->
                     <div class="flex justify-between space-x-2">
                         <x-button-start type="submit">Save</x-button-start>
                         <x-button-start href="{{ route('behaviorals.index') }}">Cancel</x-button-start>
                     </div>
-
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
     @endsection
-
 </x-app-layout>

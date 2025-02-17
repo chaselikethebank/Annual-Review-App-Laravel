@@ -13,13 +13,13 @@
                 <!-- Navigation Links -->
                  
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('job-roles.index') }}" :active="request()->routeIs('job-roles.index')">
-                        {{ __('Job Roles and Guides') }}
+                    <x-nav-link href="{{ route('departments.index') }}" :active="request()->routeIs('departments.index')">
+                        {{ __('Departments, Roles and Guides') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('behaviorals.index') }}" :active="request()->routeIs('behaviorals.index')">
-                        {{ __('Behaviorals') }}
+                        {{ __('Behavioral (Org-Wide)') }}
                     </x-nav-link>
                 </div>
 
@@ -34,10 +34,12 @@
                     </x-nav-link>
                 </div>
                  <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('assessments.index') }}" :active="request()->routeIs('assessments.index')">
-                        {{ __('Assessments') }}
+                    <x-nav-link href="{{ route('general_qualifiers.index') }}" :active="request()->routeIs('general_qualifiers.index')">
+                        {{ __('General Qualifiers (Guides)') }}
                     </x-nav-link>
                 </div>
+
+
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">

@@ -33,9 +33,8 @@ class Review extends Model
     {
         return $this->belongsTo(JobRole::class);
     }
-
-    public function assessments()
+    public function answers()
     {
-        return $this->hasMany(Assessment::class);   
+        return $this->hasMany(Answer::class);
     }
 }

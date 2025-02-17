@@ -1,8 +1,8 @@
 <x-app-layout>
 
-    <x-slot name="header" style="shadow: none;">
+    <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Job Roles and Guides') }}
+            {{ __('Job Roles for ' . $department->name) }}
         </h2>
     </x-slot>
 
@@ -41,9 +41,15 @@
                     @endforeach
                 </tbody>
             </table>
-            <div class="px-6 py-4 flex justify-end">
+            {{-- <div class="px-6 py-4 flex justify-end">
                 <x-button-start href="{{ route('job-roles.create') }}">Create Job Role</x-button-start>
             </div>
+
+            <div class="px-6 py-4 flex justify-end">
+                <x-button-start href="{{ route('departments.job-role.create', ['departmentId' => $department->id]) }}">
+                    Create Job Role
+                </x-button-start>
+            </div> --}}
         </div>
     </div>
     @endsection

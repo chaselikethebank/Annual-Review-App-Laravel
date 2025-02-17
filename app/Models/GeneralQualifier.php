@@ -2,25 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Guide;
 
-class Qualifier extends Model
+class GeneralQualifier extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'title',
         'note',
-        'extra',
         'rating',
-        'behavioral_id',
+        'guide_id', // We'll add guide_id to link it with guides
     ];
-
-    public function behavioral()
-    {
-        return $this->belongsTo(Behavioral::class);
-    }
 
     public function guide()
     {

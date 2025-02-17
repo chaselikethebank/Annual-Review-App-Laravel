@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Guides for: ') }} {{ $jobRole->name }}
+                {{ __('Guides for ') }} {{ $jobRole->name }} in {{ $department->name}}
             </h2>
         
             <x-button-start href="{{ route('job-roles.index') }}" class="bg-gray-300 text-gray-700 ml-auto">
@@ -44,7 +44,7 @@
             @endif
 
             <div class="flex items-center justify-space-between space-x-4 mt-6">
-                <x-button-start href="{{ route('job-roles.index') }}" class="bg-gray-300 text-gray-700">Back
+                <x-button-start href="{{ route('departments.job-roles.index', ['department' => $department->id]) }}" class="bg-gray-300 text-gray-700">Back to Job Roles in {{ $department->name }}
                 </x-button-start>
             </div>
         </div>

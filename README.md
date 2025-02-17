@@ -115,3 +115,7 @@ logic in the AssessmentController to trigger an assessment from a review
   ]
 }
 ```
+
+# Logs 
+Log::info('Behavioral ID:', ['id' => $behavior->id]);
+tail -f storage/logs/laravel.log

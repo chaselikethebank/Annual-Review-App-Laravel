@@ -9,21 +9,19 @@ class JobRole extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'department_id'];
 
-    // Workers assigned to this job role
-    // public function workers()
-    // {
-    //     return $this->belongsToMany(Worker::class, 'worker_job_roles');
-    // }
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 
-    // Guides associated with this job role
     public function guides()
     {
         return $this->hasMany(Guide::class);
     }
 
-        public function users()
+    public function users()
     {
         return $this->hasMany(User::class);
     }
