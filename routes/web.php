@@ -74,12 +74,14 @@ Route::middleware([
     Route::put('reviews/{reviewId}/answers/{answerId}', [AnswerController::class, 'update'])->name('answers.update');
     Route::delete('reviews/{reviewId}/answers/{answerId}', [AnswerController::class, 'destroy'])->name('answers.destroy');
 
-    //General Qualifiers
+    //Subjective Qualifiers
     Route::resource('general_qualifiers', GeneralQualifierController::class);
     Route::delete('general_qualifiers/guide/{id}', [GeneralQualifierController::class, 'destroy'])->name('general_qualifiers.destroy');
     Route::get('general_qualifiers/{id}/edit', [GeneralQualifierController::class, 'edit'])->name('general_qualifiers.edit');
     Route::put('general_qualifiers/{id}', [GeneralQualifierController::class, 'update'])->name('general_qualifiers.update');
-    
+    Route::get('/qualifiers/{guide}', [GeneralQualifierController::class, 'index']);
+    Route::post('/qualifiers/{qualifier}', [GeneralQualifierController::class, 'update']);
+
 
     // Departments
     Route::resource('departments', DepartmentController::class);

@@ -20,4 +20,6 @@ class GeneralQualifier extends Model
     {
         return $this->belongsTo(Guide::class);
     }
+
+ 
 }

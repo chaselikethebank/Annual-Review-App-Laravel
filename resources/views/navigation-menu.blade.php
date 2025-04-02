@@ -35,7 +35,7 @@
                 </div>
                  <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('general_qualifiers.index') }}" :active="request()->routeIs('general_qualifiers.index')">
-                        {{ __('General Qualifiers (Guides)') }}
+                        {{ __('Subjective Qualifiers (Guides from Job Roles)') }}
                     </x-nav-link>
                 </div>
 

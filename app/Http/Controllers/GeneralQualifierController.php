@@ -37,7 +37,7 @@ class GeneralQualifierController extends Controller
                 'guide_id' => $request->guide_id
             ]);
         }
-        return redirect()->route('general_qualifiers.index')->with('success', 'General Qualifiers created successfully!');
+        return redirect()->route('general_qualifiers.index')->with('success', 'Subjective Qualifiers created successfully!');
     }
 
     public function destroy($id)
@@ -47,13 +47,16 @@ class GeneralQualifierController extends Controller
     $guide->generalQualifiers()->delete();
 
     return redirect()->route('general_qualifiers.index')
-                     ->with('success', 'All General Qualifiers for this guide deleted successfully!');
+                     ->with('success', 'All Subjective Qualifiers for this guide deleted successfully!');
 }
 
 public function edit($id)
 {
     $generalQualifier = GeneralQualifier::findOrFail($id);
-    return view('general_qualifiers.edit', compact('generalQualifier'));
+
+    $guides = Guide::all(); 
+
+    return view('general_qualifiers.edit', compact('generalQualifier', 'guides'));
 }
 
 public function update(Request $request, $id)
@@ -72,5 +75,13 @@ public function update(Request $request, $id)
     return redirect()->route('general_qualifiers.index')->with('success', 'Qualifier updated successfully!');
 }
 
+ 
+public function show($id)
+{
+    $generalQualifier = GeneralQualifier::findOrFail($id);
+    $guide = $generalQualifier->guide;
+
+    return view('general_qualifiers.show', compact('generalQualifier', 'guide'));
+}
 
 }
