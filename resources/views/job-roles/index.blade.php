@@ -44,13 +44,14 @@
             {{-- <div class="px-6 py-4 flex justify-end">
                 <x-button-start href="{{ route('job-roles.create') }}">Create Job Role</x-button-start>
             </div>
-
-            <div class="px-6 py-4 flex justify-end">
-                <x-button-start href="{{ route('departments.job-role.create', ['departmentId' => $department->id]) }}">
-                    Create Job Role
-                </x-button-start>
-            </div> --}}
+            --}}
+         
         </div>
+        <div class="px-6 py-4 flex justify-end">
+            <x-button-start href="{{ route('departments.index') }}">
+                Back to Departments
+            </x-button-start>
+        </div> 
     </div>
     @endsection
 

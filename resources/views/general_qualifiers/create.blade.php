@@ -12,6 +12,24 @@
             <form action="{{ route('general_qualifiers.store') }}" method="POST">
                 @csrf
 
+                <!-- Select Guide Field -->
+                <div class="mb-4">
+                    <x-label for="guide_id" value="Select Guide" />
+                    <select id="guide_id" class="block mt-1 w-full border-gray-300 rounded-md" name="guide_id" required>
+                        <option value="">-- Select Guide --</option>
+                        @foreach ($guides as $guide)
+                            <option value="{{ $guide->id }}">
+                                {{ $guide->title }} 
+                                @if ($guide->jobRole) 
+                                    ({{ $guide->jobRole->name }}) 
+                                @else
+                                    (No Job Role)
+                                @endif
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <!-- Title Field -->
                 <div class="mb-4">
                     <x-label for="title" value="Title" />
@@ -23,17 +41,6 @@
                     <x-label for="description" value="Description" />
                     <textarea id="description" class="block mt-1 w-full border-gray-300 rounded-md" name="description" rows="4"
                         required></textarea>
-                </div>
-
-                <!-- Select Guide Field -->
-                <div class="mb-4">
-                    <x-label for="guide_id" value="Select Guide" />
-                    <select id="guide_id" class="block mt-1 w-full border-gray-300 rounded-md" name="guide_id" required>
-                        <option value="">-- Select Guide --</option>
-                        @foreach ($guides as $guide)
-                            <option value="{{ $guide->id }}">{{ $guide->name }}</option>
-                        @endforeach
-                    </select>
                 </div>
 
                 <!-- Qualifiers Section -->

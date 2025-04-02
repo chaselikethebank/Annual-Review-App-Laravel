@@ -37,7 +37,9 @@
                                         </x-button-start>
                                     </form>
                                     {{-- Link to create a new job role in the department --}}
-                                    <x-button-start href="{{ route('departments.job-role.create', $department) }}">Create Job Role</x-button-start>
+                                    <x-button-start href="{{ route('departments.job-roles.create', $department) }}">
+                                        Create Job Role
+                                    </x-button-start>
                                 </td>
                             </tr>
                         @endforeach

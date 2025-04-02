@@ -76,21 +76,28 @@ Route::middleware([
 
     //General Qualifiers
     Route::resource('general_qualifiers', GeneralQualifierController::class);
+    Route::delete('general_qualifiers/guide/{id}', [GeneralQualifierController::class, 'destroy'])->name('general_qualifiers.destroy');
+    Route::get('general_qualifiers/{id}/edit', [GeneralQualifierController::class, 'edit'])->name('general_qualifiers.edit');
+    Route::put('general_qualifiers/{id}', [GeneralQualifierController::class, 'update'])->name('general_qualifiers.update');
+    
 
     // Departments
     Route::resource('departments', DepartmentController::class);
 
-        // Create Job Role for a department
-        Route::get('departments/{department}/job-role/create', [JobRoleController::class, 'createWithDepartment'])->name('departments.job-role.create');
+    // Create Job Role for a department
+    Route::get('departments/{department}/job-role/create', [JobRoleController::class, 'createWithDepartment'])->name('departments.job-role.create');
 
-        // Show all Job Roles for a department (Index)
-        Route::get('/departments/{department}/job-roles', [DepartmentController::class, 'showJobRoles'])->name('departments.job-roles.index');
+    // Show all Job Roles for a department (Index)
+    Route::get('/departments/{department}/job-roles', [DepartmentController::class, 'showJobRoles'])->name('departments.job-roles.index');
 
-        // Create Job Role inside a department (With Department ID)
-        Route::get('/departments/{departmentId}/job-roles/create', [JobRoleController::class, 'createWithDepartment'])->name('departments.job-roles.create');
+    // Route for creating a new job role under a department
+    Route::get('/departments/{department}/job-roles/create', [JobRoleController::class, 'create'])->name('job-roles.create');
 
-        // Show a specific Job Role within a department
-        Route::get('/departments/{departmentId}/job-roles/{jobRoleId}', [JobRoleController::class, 'show'])->name('departments.job-roles.show');
+    // Show a specific Job Role within a department
+    Route::get('/departments/{departmentId}/job-roles/{jobRoleId}', [JobRoleController::class, 'show'])->name('departments.job-roles.show');
 
+    Route::get('departments/{department}/job-roles/create', [JobRoleController::class, 'createWithDepartment'])->name('departments.job-roles.create');
+
+    
 
 });

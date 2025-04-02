@@ -30,9 +30,7 @@
                     <x-button-start href="{{ route('job-roles.show', $jobRole) }}" class="bg-gray-300 text-gray-700">Back to This Job</x-button-start>
                 </div>
 
-                <div class="mt-6 ">
-                    <x-button-start href="{{ route('job-roles.index') }}" class="bg-gray-300 text-gray-700">Back to All Jobs</x-button-start>
-                </div>
+                 
             </form>
         </div>
     </div>

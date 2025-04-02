@@ -17,11 +17,11 @@ class JobRoleController extends Controller
         return view('job-roles.assign', compact('jobRoles'));
     }
 
-    public function create()
+    public function create(Department $department)
     {
-        $departments = Department::all();
-        return view('job-roles.create', compact('departments'));
+        return view('job-roles.create', compact('department'));
     }
+
 
 
     public function storeAssign(Request $request)
@@ -89,29 +89,30 @@ class JobRoleController extends Controller
     /**
      * Show the form for creating a new job role.
      */
-    
-     public function createWithDepartment($departmentId)
-     {
-         $department = Department::findOrFail($departmentId);  
-         return view('job-roles.create', compact('department'));  
-     }
+
+    public function createWithDepartment($departmentId)
+    {
+        $department = Department::findOrFail($departmentId);
+        return view('job-roles.create', compact('department'));
+    }
     /**
      * Store a newly created job role.
      */
-    public function store(Request $request)
+    public function store(Request $request, Department $department)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'department_id' => 'nullable|exists:departments,id',
         ]);
 
         JobRole::create([
             'name' => $request->name,
-            'department_id' => $request->department_id,
+            'department_id' => $department->id,
         ]);
 
-        return redirect()->route('job-roles.index');
+        return redirect()->route('departments.job-roles.index', ['department' => $department->id])
+            ->with('success', 'Job role created successfully.');
     }
+
 
 
     /**
