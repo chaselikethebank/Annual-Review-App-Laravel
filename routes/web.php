@@ -10,7 +10,7 @@ use App\Http\Controllers\QualifierController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\GeneralQualifierController;
 use App\Http\Controllers\DepartmentController;
-
+use App\Http\Controllers\DashboardController;
 
 
 Route::get('/', function () {
@@ -21,11 +21,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
+])->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // User routes
 
     // Hierarchy Routes
@@ -33,9 +29,6 @@ Route::middleware([
 
     Route::get('/hierarchy/assign', [HierarchyController::class, 'assign'])->name('hierarchy.assign');
     Route::post('/hierarchy/assign', [HierarchyController::class, 'store'])->name('hierarchy.store');
-
-
-
 
     // Guides Routes
     Route::get('/job-roles/{jobRole}/guides/create', [JobRoleController::class, 'createGuide'])->name('job-roles.guides.create');

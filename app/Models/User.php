@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
+
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -73,6 +74,7 @@ class User extends Authenticatable
 {
     return $this->belongsToMany(JobRole::class);
 }
+ 
 
 public function manager(): BelongsTo
 {
