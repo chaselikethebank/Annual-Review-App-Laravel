@@ -6,32 +6,20 @@
     </x-slot>
 
     @section('content')
-        <div class="container mx-auto px-4 py-8">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <form action="{{ route('job-roles.store', $department->id) }}" method="POST">
-                    @csrf
-
-                    <!-- Hidden Department ID Field -->
-                    <input type="hidden" name="department_id" value="{{ $department->id }}">
-
-                    <!-- Name Field -->
-                    <div class="mb-4">
-                        <x-label for="name" value="Job Role Name" />
-                        <x-input id="name" class="block mt-1 w-full" type="text" name="name" required />
-                    </div>
-
-
-                    <td class="px-6 py-4 space-x-2">
-                        <x-button-start href="{{ route('job-roles.index', ['departmentId' => $department->id]) }}">
-                            Create Job Role
-                        </x-button-start>
-                    </td>
-
-                    {{-- <x-button-start href="{{ route('departments.job-roles.index', ['departmentId' => $department->id]) }}">
-                        View All Job Roles
-                    </x-button-start> --}}
-                </form>
-            </div>
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <form action="{{ route('departments.job-roles.store', $department) }}" method="POST">
+                @csrf
+                <p>Department: {{ $department->name }}</p>
+                
+                <div class="mb-4">
+                    <x-label for="name" value="Job Role Name" />
+                    <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required />
+                </div>
+                
+                <x-button type="submit">Create Job Role</x-button>
+            </form>
         </div>
+    </div>
     @endsection
 </x-app-layout>

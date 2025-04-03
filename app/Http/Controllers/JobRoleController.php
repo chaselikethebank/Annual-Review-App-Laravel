@@ -8,7 +8,6 @@ use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-
 class JobRoleController extends Controller
 {
     public function assign()
@@ -24,12 +23,25 @@ class JobRoleController extends Controller
 
 
 
+    public function store(Request $request, Department $department)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+    
+        JobRole::create([
+            'name' => $request->name,
+            'department_id' => $department->id,
+        ]);
+    
+        return redirect()->route('departments.job-roles.index', $department->id)
+                         ->with('success', 'Job role created successfully.');
+    }
+
     public function storeAssign(Request $request)
     {
         $user = auth()->user();
-
         $jobRoleId = $request->input('job_role_id');
-
         $user->jobRoles()->attach($jobRoleId);
 
         return redirect()->back()->with('success', 'Job role assigned successfully!');
@@ -39,25 +51,24 @@ class JobRoleController extends Controller
     {
         $jobRole = JobRole::findOrFail($jobRoleId);
         $user = User::findOrFail($request->user_id);
-
         $jobRole->users()->attach($user);
 
-        return redirect()->route('job-roles.show', $jobRole->id)->with('success', 'User assigned to job role successfully!');
+        return redirect()->route('job-roles.show', $jobRole->id)
+                         ->with('success', 'User assigned to job role successfully!');
     }
 
     public function removeUserFromJobRole(Request $request, $jobRoleId)
     {
         $jobRole = JobRole::findOrFail($jobRoleId);
         $user = User::findOrFail($request->user_id);
-
         $jobRole->users()->detach($user);
 
-        return redirect()->route('job-roles.show', $jobRole->id)->with('success', 'User removed from job role successfully!');
+        return redirect()->route('job-roles.show', $jobRole->id)
+                         ->with('success', 'User removed from job role successfully!');
     }
 
     public function addGuide(Request $request, $jobRoleId)
     {
-
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -72,59 +83,21 @@ class JobRoleController extends Controller
         $guide->save();
 
         return redirect()->route('job-roles.show', $jobRole->id)
-            ->with('success', 'Guide created successfully!');
+                         ->with('success', 'Guide created successfully!');
     }
-
-    /**
-     * Display the list of job roles.
-     */
 
     public function index(Department $department)
     {
         $jobRoles = $department->jobRoles;
-
-        return view('job-roles.index', compact('department', 'jobRoles'))->with('header', 'Job Roles');
+        return view('job-roles.index', compact('jobRoles', 'department'));
     }
-
-    /**
-     * Show the form for creating a new job role.
-     */
-
-    public function createWithDepartment($departmentId)
-    {
-        $department = Department::findOrFail($departmentId);
-        return view('job-roles.create', compact('department'));
-    }
-    /**
-     * Store a newly created job role.
-     */
-    public function store(Request $request, Department $department)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
-        JobRole::create([
-            'name' => $request->name,
-            'department_id' => $department->id,
-        ]);
-
-        return redirect()->route('departments.job-roles.index', ['department' => $department->id])
-            ->with('success', 'Job role created successfully.');
-    }
-
-
-
-    /**
-     * Display the specified job role along with its guides.
-     */
 
     public function show(JobRole $jobRole)
     {
         $department = $jobRole->department;
-
         return view('job-roles.show', compact('jobRole', 'department'));
     }
+
     public function editGuide($jobRoleId, $guideId)
     {
         $jobRole = JobRole::findOrFail($jobRoleId);
@@ -150,29 +123,16 @@ class JobRoleController extends Controller
         return redirect()->route('job-roles.show', $jobRole->id)->with('success', 'Guide updated successfully!');
     }
 
-    /**
-     * Show the form for creating a new guide for a job role.
-     */
-
     public function createGuide($jobRoleId)
     {
         $jobRole = JobRole::findOrFail($jobRoleId);
-
         return view('job-roles.guides.create', compact('jobRole'));
     }
-
-    /**
-     * Show the form for editing the specified job role.
-     */
 
     public function edit(JobRole $jobRole)
     {
         return view('job-roles.edit', compact('jobRole'));
     }
-
-    /**
-     * Update the specified job role.
-     */
 
     public function update(Request $request, JobRole $jobRole)
     {
@@ -187,10 +147,6 @@ class JobRoleController extends Controller
         return redirect()->route('job-roles.index');
     }
 
-    /**
-     * Remove the specified job role from storage.
-     */
-
     public function destroy(JobRole $jobRole)
     {
         $jobRole->delete();
@@ -200,7 +156,7 @@ class JobRoleController extends Controller
 
     public function showGuide(Guide $guide, Department $department)
     {
-        // You can now pass the department with the guide
         return view('guides.show', compact('guide', 'department'));
     }
+ 
 }

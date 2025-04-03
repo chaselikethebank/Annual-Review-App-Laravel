@@ -42,7 +42,7 @@
             @endif
 
             <div class="flex items-center justify-space-between space-x-4 mt-6">
-                <x-button-start href="{{ route('departments.job-roles.index', ['department' => $department->id]) }}" class="bg-gray-300 text-gray-700">Back to {{ $jobRole->name }} in {{ $department->name }}
+                <x-button-start href="{{ route('departments.job-roles.index', ['department' => $department->id]) }}" class="bg-gray-300 text-gray-700">Back to {{ $department->name }}
                 </x-button-start>
             </div>
             {{-- <x-button-start href="{{ route('job-roles.index') }}" class="bg-gray-300 text-gray-700 ml-auto">

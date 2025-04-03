@@ -34,16 +34,9 @@ Route::middleware([
     Route::get('/hierarchy/assign', [HierarchyController::class, 'assign'])->name('hierarchy.assign');
     Route::post('/hierarchy/assign', [HierarchyController::class, 'store'])->name('hierarchy.store');
 
-    // Job Roles Management Routes
-    Route::get('/job-roles/assign', [JobRoleController::class, 'assign'])->name('job-roles.assign');
 
 
-    Route::post('/job-roles/assign', [JobRoleController::class, 'storeAssign'])->name('job-roles.store.assign');
 
-    Route::post('/job-roles/{jobRoleId}/assign-user', [JobRoleController::class, 'assignUserToJobRole'])->name('job-roles.assign-user');
-    Route::post('/job-roles/{jobRoleId}/remove-user', [JobRoleController::class, 'removeUserFromJobRole'])->name('job-roles.remove-user');
-
-    Route::resource('job-roles', JobRoleController::class);
     // Guides Routes
     Route::get('/job-roles/{jobRole}/guides/create', [JobRoleController::class, 'createGuide'])->name('job-roles.guides.create');
     Route::get('/job-roles/{jobRole}/guides/{guide}/edit', [JobRoleController::class, 'editGuide'])->name('job-roles.guides.edit');
@@ -76,9 +69,9 @@ Route::middleware([
 
     //Subjective Qualifiers
     Route::resource('general_qualifiers', GeneralQualifierController::class);
-    Route::delete('general_qualifiers/guide/{id}', [GeneralQualifierController::class, 'destroy'])->name('general_qualifiers.destroy');
-    Route::get('general_qualifiers/{id}/edit', [GeneralQualifierController::class, 'edit'])->name('general_qualifiers.edit');
-    Route::put('general_qualifiers/{id}', [GeneralQualifierController::class, 'update'])->name('general_qualifiers.update');
+    // Route::delete('general_qualifiers/guide/{id}', [GeneralQualifierController::class, 'destroy'])->name('general_qualifiers.destroy');
+    // Route::get('general_qualifiers/{id}/edit', [GeneralQualifierController::class, 'edit'])->name('general_qualifiers.edit');
+    // Route::put('general_qualifiers/{id}', [GeneralQualifierController::class, 'update'])->name('general_qualifiers.update');
     Route::get('/qualifiers/{guide}', [GeneralQualifierController::class, 'index']);
     Route::post('/qualifiers/{qualifier}', [GeneralQualifierController::class, 'update']);
 
@@ -86,20 +79,23 @@ Route::middleware([
     // Departments
     Route::resource('departments', DepartmentController::class);
 
-    // Create Job Role for a department
-    Route::get('departments/{department}/job-role/create', [JobRoleController::class, 'createWithDepartment'])->name('departments.job-role.create');
+
 
     // Show all Job Roles for a department (Index)
     Route::get('/departments/{department}/job-roles', [DepartmentController::class, 'showJobRoles'])->name('departments.job-roles.index');
 
-    // Route for creating a new job role under a department
-    Route::get('/departments/{department}/job-roles/create', [JobRoleController::class, 'create'])->name('job-roles.create');
 
-    // Show a specific Job Role within a department
-    Route::get('/departments/{departmentId}/job-roles/{jobRoleId}', [JobRoleController::class, 'show'])->name('departments.job-roles.show');
 
-    Route::get('departments/{department}/job-roles/create', [JobRoleController::class, 'createWithDepartment'])->name('departments.job-roles.create');
-
-    
-
+    // Job Roles Management Routes
+    Route::resource('departments.job-roles', JobRoleController::class);
+    Route::get('/departments/{department}/job-roles/create', [JobRoleController::class, 'create'])->name('departments.job-roles.create');
+    Route::post('/departments/{department}/job-roles', [JobRoleController::class, 'store'])->name('departments.job-roles.store');
+    Route::get('/job-roles/assign', [JobRoleController::class, 'assign'])->name('job-roles.assign');
+    Route::post('/job-roles/assign', [JobRoleController::class, 'storeAssign'])->name('job-roles.store.assign');
+    Route::post('/job-roles/{jobRoleId}/assign-user', [JobRoleController::class, 'assignUserToJobRole'])->name('job-roles.assign-user');
+    Route::post('/job-roles/{jobRoleId}/remove-user', [JobRoleController::class, 'removeUserFromJobRole'])->name('job-roles.remove-user');
+    Route::resource('job-roles', JobRoleController::class);
+    Route::post('/departments/{department}/job-roles', [JobRoleController::class, 'store'])->name('departments.job-roles.store');
+    // Route::get('/departments/{departmentId}/job-roles/{jobRoleId}', [JobRoleController::class, 'show'])->name('departments.job-roles.show');
 });
+
