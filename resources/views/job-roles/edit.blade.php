@@ -7,7 +7,7 @@
 
     @section('content')
     <div class="container mx-auto px-4 py-8">
-        <div class="bg-white shadow-xl rounded-lg overflow-hidden p-6">
+        <div class="bg-white  rounded-lg overflow-hidden p-6">
             <form action="{{ route('job-roles.update', $jobRole) }}" method="POST" class="space-y-4">
                 @csrf
                 @method('PUT')

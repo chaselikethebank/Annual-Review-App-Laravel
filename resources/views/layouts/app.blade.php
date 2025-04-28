@@ -22,19 +22,22 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased">
-    <x-banner />
+<body class="font-sans antialiased min-h-screen" >
+    <x-banner class=""/>
 
-    <div class="min-h-screen bg-gray-100">
-        @livewire('navigation-menu')
+    <div class="min-h-screen ">
+        
+        <x-side-navigation>
 
         <!-- Page Heading -->
         @if (isset($header))
-        <header class="bg-white shadow">
+        @livewire('navigation-menu')
+        <header class="">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 
                 {{ $header }}
             </div>
+            
         </header>
         @endif
 
@@ -42,6 +45,7 @@
         <main class="">
             @yield('content')
         </main>
+        </x-side-navigation>
     </div>
 
     @stack('modals')

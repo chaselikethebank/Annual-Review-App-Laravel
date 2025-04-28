@@ -10,7 +10,7 @@
         <div class="container mx-auto px-4 py-8">
             <div class="bg-white rounded-lg overflow-hidden">
                 <table class="w-full table-auto">
-                    <thead class="bg-gray-50 border-b">
+                    <thead class="bg-gray-50  ">
                         <tr>
                             <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Name</th>
                             <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase">Actions</th>
