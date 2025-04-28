@@ -45,7 +45,7 @@
         </x-slot>
     </x-form-section>
 
-    @if ($this->user->tokens->isNotEmpty())
+    @if ()
         <x-section-border />
 
         <!-- Manage API Tokens -->

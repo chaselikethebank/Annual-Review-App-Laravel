@@ -38,7 +38,7 @@
             </script>
 
             <div class="bg-white rounded-lg overflow-hidden">
-                @if ($reviews->isNotEmpty())
+                @if ()
                     <table class="w-full table-auto">
                         <thead class="bg-gray-50 border-b">
                             <tr>
@@ -83,7 +83,7 @@
                     <p class="text-gray-600">No pending reviews.</p>
                 @endif
 
-                @if ($assessments->isNotEmpty())
+                @if ()
                     <h4 class="font-medium text-gray-700 mt-6">Assigned Assessments</h4>
                     <table class="w-full table-auto mt-2">
                         <thead class="bg-gray-50 border-b">

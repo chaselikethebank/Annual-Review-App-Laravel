@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            Welcome, {{ auth()->user()->name }} to your Dashboard 👋
+            Welcome, {{ auth()->user()->name }} 👋 || This is your Dashboard 
         </h2>
     </x-slot>
 

@@ -144,7 +144,7 @@ class JobRoleController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->route('job-roles.index');
+        return redirect()->route('departments.job-roles.index', $jobRole->department_id);
     }
 
     public function destroy(JobRole $jobRole)

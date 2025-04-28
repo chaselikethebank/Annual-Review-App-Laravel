@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Reviews List Org-Wide') }}
+            {{ __('Review Context List') }}
         </h2>
     </x-slot>
 
@@ -33,9 +33,8 @@
 
             <div class="bg-white  rounded-lg overflow-hidden">
 
-                @if ($reviews->isEmpty())
-                    <p class="text-gray-600">No reviews completed.</p>
-                @else
+              
+               
                     <table class="w-full table-auto">
                         <thead class="bg-gray-50 border-b">
                             <tr>
@@ -53,28 +52,21 @@
                                 <tr class="border-t hover:bg-gray-50 transition duration-200">
                                 
                                     <td class="px-6 py-4 text-sm text-gray-800 reviewer">
-                                         {{ $review->user ? $review->user->name : 'No reviewer assigned' }}
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-800 reviewee">
-                                        {{ $review->reviewee ? $review->reviewee->name : 'No reviewee assigned' }}
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-800">
-                                        {{ $review->jobRole ? $review->jobRole->name : 'No job role assigned' }}
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-800">
-                                        {{ $review->review_type }}
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-800">
-                                        {{ $review->calendar_term }}
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-800 reviewer">
-                                        @if ($review->assessments->isNotEmpty())
-                                            <x-link-start href="{{ route('assessments.show', $review->assessments->first()->id) }}">
-                                                {{ $review->user ? $review->id : 'No reviewer ID assigned' }}
-                                            </x-link-start>
-                                        @else
+                                       
+                                           
+                                      
                                             No assessment available
-                                        @endif
+                                 
                                     </td>
                                     <td class="px-6 py-4 space-x-2">
                                         {{-- <x-button-start href="{{ route('reviews.show', $review->id) }}">View</x-button-start> --}}
@@ -96,7 +88,7 @@
                             <a href="{{ route('reviews.create') }}">+ Create Review</a>
                         </x-button-start>
                     <div>
-                @endif
+          
             </div>
         </div>
     </div>
