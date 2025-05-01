@@ -1,5 +1,5 @@
 <div class="flex h-screen">
-    <aside class="w-64 bg-black min-h-screen">
+    <aside class="w-64 bg-black h-full">
         @php
             $currentRoute = Route::currentRouteName();
             
@@ -18,7 +18,7 @@
              Review App Name Here 
         </div>
 
-        <nav class="mt-1">
+        <nav class="sticky top-0 bg-black z-10">
             <ul class="space-y-1">
                 @foreach($links as $link)
                     <li class="px-5">
@@ -27,13 +27,9 @@
                                {{ $currentRoute == $link['route'] ? 'bg-gray-200 text-gray-900' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                             {{ $link['label'] }}
                         </a>
-                        
                     </li>
-                    
-                    
                 @endforeach
             </ul>
-            
         </nav>
     </aside>
 
